@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TypeRepository")
@@ -18,6 +19,7 @@ class Type{
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -28,11 +30,12 @@ class Type{
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $type;
 
     public function __construct(){
-        $this->createdat = new \Datetime;
+        $this->createdAt = new \Datetime;
     }
 
     public function getId(){
@@ -40,7 +43,7 @@ class Type{
     }
 
     public function getTitle(){
-        return $this->title();
+        return $this->title;
     }
 
     public function setTitle($title){
