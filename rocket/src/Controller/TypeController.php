@@ -20,7 +20,7 @@ class TypeController extends BaseController{
     public function types(){
         $em = $this->doctrine->getEntityManager();
 
-        return new JsonResponse(
+        return new Response(
             $this->serializer->serialize(
                 $em->getRepository(Type::class)->findAll(),
                 'json'

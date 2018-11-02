@@ -21,5 +21,21 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
+    {
+      path: '/types',
+      component: () => import(/* webpackChunkName: "types" */ './views/Type.vue'),
+      children: [
+        {
+          path: '',
+          name: 'typeList',
+          component: () => import(/* webpackChunkName: "typesListe" */ './views/TypeList.vue'),
+        },
+        {
+          path: 'add',
+          name: 'typeAdd',
+          component: () => import(/* webpackChunkName: "typesAdd" */ './views/TypeAdd.vue'),
+        },
+      ],
+    },
   ],
 });
