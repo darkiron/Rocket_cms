@@ -1,6 +1,8 @@
 <template>
   <tr>
     <td v-for="(name, index) in list" v-html="item[name]" :key="index"></td>
+    <td>Edit</td>
+    <td>Delete</td>
   </tr>
 </template>
 <script>

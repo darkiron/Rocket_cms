@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Type</h1>
+        <h1>{{ title }}</h1>
         <div>
             <router-link :to="{name: 'typeList'}">list</router-link>
             <router-link :to="{name: 'typeAdd'}">add</router-link>
@@ -11,5 +11,10 @@
 <script>
 export default {
   name: 'type',
+  computed: {
+    title() {
+      return this.$route.params.type;
+    },
+  },
 };
 </script>
