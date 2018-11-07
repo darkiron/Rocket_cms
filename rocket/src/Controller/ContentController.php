@@ -29,7 +29,7 @@ class ContentController extends BaseController{
     }
 
     /** 
-     * @Route("/api/contents/{id}", name="api_contents", methods={"GET"})
+     * @Route("/api/contents/{id}", name="api_content", methods={"GET"})
     */
     public function type(Request $request, $id){
         $em = $this->doctrine->getEntityManager();

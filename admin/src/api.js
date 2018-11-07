@@ -9,6 +9,10 @@ export default{
       add: '/add',
       edit: '/edit',
       delete: '/delete',
+      form: [
+        { name: 'title', type: 'text' },
+        { name: 'type', type: 'select', values: ['content','attribute']}
+      ]
     },
     {
       name: 'contents',
@@ -28,6 +32,10 @@ export default{
     },
 
   ],
+  getForm(route) {
+    const type = this.lists.find(item => item.name === route);
+    return type.form;
+  },
   getRoute(route, crud, id) {
     const type = this.lists.find(item => item.name === route);
 
