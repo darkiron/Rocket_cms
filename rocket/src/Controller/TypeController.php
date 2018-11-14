@@ -72,7 +72,13 @@ class TypeController extends BaseController{
             );
         }
 
-        return new JsonResponse($this->formErrors->getErrors($form),  500);
+        return new Response(
+            $this->serializer->serialize(
+                $this->formErrors->getErrors($form),
+                'json'
+            ),
+            500
+        );
     }
 
     /** 

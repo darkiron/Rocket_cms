@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <FormInput v-for="(input, index) in form" :key="index" />
-
+  <form>
+    <FormInput v-for="(input, index) in form" :key="index" :value="input" />
     <button type="submit" @click="submit">Save</button>
-  </div>
+  </form>
 </template>
 <script>
 import api from '@/api';
 import FormInput from '@/components/FormInput.vue';
+import axios from 'axios';
 
 export default {
   name: 'Form',
@@ -21,8 +21,20 @@ export default {
     };
   },
   methods: {
-    submit() {
-      console.log('toto');
+    submit(e) {
+      e.preventDefault();
+      let formValue = {};
+      this.form.forEach( item => {
+        formValue[`${item.name}`] =document.getElementsByName(item.name)[0].value;
+      });
+      axios({
+        method: 'post',
+        url: this.action,
+        data: formValue,
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+        },
+      })
     },
   },
   mounted() {

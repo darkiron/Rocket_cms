@@ -9,7 +9,9 @@ class FormErrors{
 
         foreach($form->all() as $child ){
             if(!$child->isValid())
-                $error[$child->getName()] = $child->getError()->getMessage();
+                foreach($child->getErrors() as $err){
+                    $error[$child->getName()] = $err->getMessage();
+                }
         }
 
         return $error;
