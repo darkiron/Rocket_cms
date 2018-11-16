@@ -5,7 +5,8 @@
     </template>
     <template v-else>
       <select :name="value.name">
-        <option v-for="(opt, index) in value.values" :key="index" :value="opt" v-html="opt"></option>
+        <option v-for="(opt, index) in value.values" :key="index" :value="opt" v-html="opt">
+        </option>
       </select>
     </template>
   </div>
@@ -14,6 +15,5 @@
 export default {
   name: 'formInput',
   props: ['value'],
-}
+};
 </script>
-

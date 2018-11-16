@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         <h1>{{ title }}</h1>
         <div>
             <router-link :to="{name: 'typeList'}">list</router-link>

@@ -12,7 +12,7 @@ export default {
   name: 'row',
   props: ['item'],
   components: {
-    Delete
+    Delete,
   },
   computed: {
     list() {
