@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\BaseController;
 use App\Entity\Content;
-use App\Form\TypeType;
+use App\Form\ContentType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,20 +47,21 @@ class ContentController extends BaseController{
     }
 
     /** 
-     * @Route("/api/crud/contents/add", name="api_crud_contents_add", methods={"POST"})
+     * @Route("/api/crud/contents/add", name="api_crud_contents_add", methods={"GET","POST"})
     */
     public function add(Request $request){
         $em = $this->doctrine->getEntityManager();
 
         $type = new Content();
 
-        $form = $this->factory->createBuilder(TypeType::class, $type)->getForm();
+        $form = $this->factory->createBuilder(ContentType::class, $type)->getForm();
 
         $data = json_decode($request->getContent(), true);
 
-        $form->submit($data);
+        if($request->getMethod() !== 'GET')
+            $form->submit($data);
 
-        if($form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             $em->persist($type);
             $em->flush();
 
@@ -72,11 +73,15 @@ class ContentController extends BaseController{
             );
         }
 
-        return new JsonResponse($this->formErrors->getErrors($form),  500);
+        if($request->getMethod() !== 'GET')
+            return new JsonResponse($this->formErrors->getErrors($form),  500);
+
+        return new JsonResponse($this->formErrors->DiscoverForm($form));
+        
     }
 
     /** 
-     * @Route("/api/crud/contents/edit/{id}", name="api_crud_contents_edit", methods={"PUT"})
+     * @Route("/api/crud/contents/edit/{id}", name="api_crud_contents_edit", methods={"GET","PUT"})
     */
     public function edit(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
@@ -92,9 +97,10 @@ class ContentController extends BaseController{
 
             $data = json_decode($request->getContent(), true);
     
-            $form->submit($data);
-    
-            if($form->isValid()){
+            if($request->getMethod() !== 'GET')
+                $form->submit($data);
+
+            if($form->isSubmitted() && $form->isValid()){
                 $em->persist($type);
                 $em->flush();
     
@@ -106,7 +112,10 @@ class ContentController extends BaseController{
                 );
             }
 
-            return new JsonResponse($this->formErrors->getErrors($form),  500);
+            if($request->getMethod() !== 'GET')
+                return new JsonResponse($this->formErrors->getErrors($form),  500);
+
+            return new JsonResponse($this->formErrors->DiscoverForm($form));
         }
 
         throw new Exception(sprintf('Type %s does not exist', $id));

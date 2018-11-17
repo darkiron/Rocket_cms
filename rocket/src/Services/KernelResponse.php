@@ -9,7 +9,7 @@ class KernelResponse{
     public function onKernelResponse(FilterResponseEvent $event){
         $response = $event->getResponse();
         $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Content-Type', 'application/json');
+        //$response->headers->set('Content-Type', 'application/json');
         
     }
 }

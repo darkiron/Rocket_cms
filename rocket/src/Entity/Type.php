@@ -7,8 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TypeRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"attribute" = "AttributeType", "content" = "ContentType"})
  */
-class Type{
+abstract class Type{
 
     /**
      * @ORM\Id

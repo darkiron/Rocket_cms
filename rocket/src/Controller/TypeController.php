@@ -47,7 +47,7 @@ class TypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/crud/types/add", name="api_crud_types_add", methods={"POST"})
+     * @Route("/api/crud/types/add", name="api_crud_types_add", methods={"GET","POST"})
     */
     public function add(Request $request){
         $em = $this->doctrine->getEntityManager();
@@ -58,9 +58,10 @@ class TypeController extends BaseController{
 
         $data = json_decode($request->getContent(), true);
 
-        $form->submit($data);
+        if($request->getMethod() !== 'GET')
+            $form->submit($data);
 
-        if($form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             $em->persist($type);
             $em->flush();
 
@@ -72,17 +73,14 @@ class TypeController extends BaseController{
             );
         }
 
-        return new Response(
-            $this->serializer->serialize(
-                $this->formErrors->getErrors($form),
-                'json'
-            ),
-            500
-        );
+        if($request->getMethod() !== 'GET')
+            return new JsonResponse($this->formErrors->getErrors($form),  500);
+
+        return new JsonResponse($this->formErrors->DiscoverForm($form));
     }
 
     /** 
-     * @Route("/api/crud/types/edit/{id}", name="api_crud_types_edit", methods={"PUT"})
+     * @Route("/api/crud/types/edit/{id}", name="api_crud_types_edit", methods={"GET","PUT"})
     */
     public function edit(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
@@ -98,9 +96,10 @@ class TypeController extends BaseController{
 
             $data = json_decode($request->getContent(), true);
     
-            $form->submit($data);
-    
-            if($form->isValid()){
+            if($request->getMethod() !== 'GET')
+                $form->submit($data);
+
+            if($form->isSubmitted() && $form->isValid()){
                 $em->persist($type);
                 $em->flush();
     
@@ -112,7 +111,10 @@ class TypeController extends BaseController{
                 );
             }
 
-            return new JsonResponse($this->formErrors->getErrors($form),  500);
+            if($request->getMethod() !== 'GET')
+                return new JsonResponse($this->formErrors->getErrors($form),  500);
+
+            return new JsonResponse($this->formErrors->DiscoverForm($form));
         }
 
         throw new Exception(sprintf('Type %s does not exist', $id));
@@ -120,7 +122,7 @@ class TypeController extends BaseController{
     }
     
     /** 
-     * @Route("/api/crud/types/delete/{id}", name="api_crud_types_delete", methods={"DELETE"})
+     * @Route("/api/crud/types/delete/{id}", name="api_crud_types_delete", methods={"DELETE", "OPTIONS"})
     */
     public function delete(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
