@@ -18,13 +18,7 @@ export default {
   props: ['id'],
   methods: {
     deleted() {
-      axios({
-        method: 'DELETE',
-        url: api.getRoute(this.$route.params.type, 'delete', this.id),
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
-      });
+      axios.delete(api.getRoute(this.$route.params.type, 'delete', this.id));
     },
   },
 };

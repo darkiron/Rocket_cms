@@ -19,21 +19,39 @@ class IndexController extends BaseController{
     /** 
      * @Route("/api", name="api_endpoint", methods={"GET"})
     */
-    public function index(RouterInterface $router){
+    public function index(RouterInterface $router, Request $request){
         $em = $this->doctrine->getEntityManager();
+
+        $search = $request->get('search', null);
+
+        $result = [];
+
+        foreach ($router->getRouteCollection() as $key => $route) {
+
+            if(null === $search){
+                $result[] = [ 
+                    'name' => $key,
+                    'path' => $route->getPath(),
+                    'method' => $route->getMethods(),
+                ];
+            }
+            elseif(preg_match('#'.$search.'#', $key, $match)){
+                $result[] = [ 
+                    'name' => $key,
+                    'path' => $route->getPath(),
+                    'method' => $route->getMethods(),
+                ];
+            }
+           
+        }
 
         //var_dump(get_class_methods($router->getRouteCollection()));
         //api_content
-        $result['contents'] = [
+       /* $result['contents'] = [
             'path' => $router->getRouteCollection()->get('api_contents')->getPath(),
             'method' => $router->getRouteCollection()->get('api_contents')->getMethods(),
-        ];
-
-        //api_types
-        $result['types'] = [
-            'path' => $router->getRouteCollection()->get('api_contents')->getPath(),
-            'method' => $router->getRouteCollection()->get('api_contents')->getMethods(),
-        ];
+        ];*/
+ 
         return new JsonResponse($result);
     }
 }

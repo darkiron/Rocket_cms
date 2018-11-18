@@ -1,16 +1,14 @@
-<?php 
+<?php
 
 namespace App\Entity;
 
-use App\Entity\Type;
-
-
+use App\Entity\Attribute;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AttributeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AttributeValueRepository")
  */
-class Attribute{
+class AttributeValue{
 
     /**
      * @ORM\Id
@@ -25,10 +23,14 @@ class Attribute{
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Type")
+     * @ORM\ManyToOne(targetEntity="Attribute")
      */
-    private $type;
+    private $attribute;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $value;
 
     public function __construct(){
         $this->createdAt = new \Datetime;
@@ -47,13 +49,20 @@ class Attribute{
         return $this->createdAt;
     }
 
-    public function getType(){
-        return $this->type;
-    }
-
-    public function setType(Type $type){
-        $this->type = $type;
+    public function setAttribute(Attribute $attribute){
+        $this->attribute = $attribute;
         return $this;
     }
 
+    public function getAttribute(){
+        return $this->attribute;
+    }
+
+    public function setValue($value){
+        $this->value = $value;
+    }
+
+    public function getValue(){
+        return $value;
+    }
 }

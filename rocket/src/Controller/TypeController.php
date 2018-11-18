@@ -29,7 +29,7 @@ class TypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/types/{id}", name="api_type", methods={"GET"})
+     * @Route("/api/types/{id}", name="api_types_show", methods={"GET"})
     */
     public function type(Request $request, $id){
         $em = $this->doctrine->getEntityManager();

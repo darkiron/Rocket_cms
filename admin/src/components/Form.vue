@@ -39,7 +39,17 @@ export default {
   },
   mounted() {
     this.action = api.getRoute(this.$route.params.type, 'add');
-    this.form = api.getForm(this.$route.params.type);
+    axios.get(`http://localhost:8888/api?search=${this.$store.state.currentEndpoint.name}_add`).then(
+      (r) => {
+        console.log(r)
+        this.action = `http://localhost:8888${r.data[0].path}`;
+        axios.get(this.action).then(
+          (r) => {
+            this.form = r.data;
+          }
+        )
+      }
+    )
   },
 };
 </script>

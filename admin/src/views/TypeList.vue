@@ -21,7 +21,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(api.getRoute(this.$route.params.type)).then(
+    axios.get(`http://localhost:8888${this.$store.state.currentEndpoint.path}`).then(
       (res) => {
         this.items = res.data;
       },
