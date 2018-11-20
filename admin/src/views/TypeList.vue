@@ -20,12 +20,20 @@ export default {
       items: [],
     };
   },
+  watch: {
+    '$route': 'fetchItems',
+  },
+  methods:{
+    fetchItems() {
+      axios.get(`http://localhost:8888${this.$store.state.currentEndpoint.path}`).then(
+        (res) => {
+          this.items = res.data;
+        },
+      );
+    },
+  },
   mounted() {
-    axios.get(`http://localhost:8888${this.$store.state.currentEndpoint.path}`).then(
-      (res) => {
-        this.items = res.data;
-      },
-    );
+    this.fetchItems();
   },
 };
 </script>

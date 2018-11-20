@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     navItems() {
-      const reg = new RegExp('[^api_][A-z]*')
+      const reg = new RegExp('(?!a?p?i?_)(.*)$')
       if(this.items.length) {
         return this.items.filter( (i) => {
           if (i.name.indexOf('crud') < 0 && i.name.indexOf('show') < 0 && i.name.indexOf('error') < 0 && i.name.indexOf('endpoint') < 0) {
@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     setEndpoint(i) {
-      console.log(i);
       this.$store.dispatch('setCurrentEndpoint', i);
     },
   },

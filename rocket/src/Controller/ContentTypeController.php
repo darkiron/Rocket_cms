@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\BaseController;
-use App\Entity\Type;
+use App\Entity\ContentType;
 use App\Form\TypeType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class TypeController extends BaseController{
+class ContentTypeController extends BaseController{
         
     /** 
      * @Route("/api/types", name="api_types", methods={"GET"})
@@ -22,7 +22,7 @@ class TypeController extends BaseController{
 
         return new Response(
             $this->serializer->serialize(
-                $em->getRepository(Type::class)->findAll(),
+                $em->getRepository(ContentType::class)->findAll(),
                 'json'
             )
         );
@@ -36,7 +36,7 @@ class TypeController extends BaseController{
 
         return new Response(
             $this->serializer->serialize(
-                $em->getRepository(Type::class)->findOneBy(
+                $em->getRepository(ContentType::class)->findOneBy(
                     [
                         'id' => $id
                     ]
@@ -52,7 +52,7 @@ class TypeController extends BaseController{
     public function add(Request $request){
         $em = $this->doctrine->getEntityManager();
 
-        $type = new Type();
+        $type = new ContentType();
 
         $form = $this->factory->createBuilder(TypeType::class, $type)->getForm();
 
@@ -85,7 +85,7 @@ class TypeController extends BaseController{
     public function edit(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
 
-        $type = $em->getRepository(Type::class)->findOneBy(
+        $type = $em->getRepository(ContentType::class)->findOneBy(
             [
                 'id' => $id,
             ]

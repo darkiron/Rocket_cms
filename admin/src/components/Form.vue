@@ -1,6 +1,6 @@
 <template>
   <form>
-    <FormInput v-for="(input, index) in form" :key="index" :value="input" />
+    <FormInput v-for="(input, index) in form" :key="index" :value="input"  :name="index" />
     <button type="submit" @click="submit">Save</button>
   </form>
 </template>
@@ -24,8 +24,9 @@ export default {
     submit(e) {
       e.preventDefault();
       let formValue = {};
-      this.form.forEach( item => {
-        formValue[`${item.name}`] =document.getElementsByName(item.name)[0].value;
+      //console.log(this.form)
+      Object.keys(this.form).forEach( item => {
+        formValue[`${item}`] = document.getElementById(item).value;
       });
       axios({
         method: 'post',
@@ -38,10 +39,9 @@ export default {
     },
   },
   mounted() {
-    this.action = api.getRoute(this.$route.params.type, 'add');
+    /* this.action = api.getRoute(this.$route.params.type, 'add'); */
     axios.get(`http://localhost:8888/api?search=${this.$store.state.currentEndpoint.name}_add`).then(
       (r) => {
-        console.log(r)
         this.action = `http://localhost:8888${r.data[0].path}`;
         axios.get(this.action).then(
           (r) => {

@@ -9,12 +9,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\ContentType;
 use App\Entity\Attribute;
 
-class TypeType extends AbstractType{
+class AttributeTypeType extends AbstractType{
 
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
             ->add('title')
-            ->add('attributes')
+            ->add('type')
         ;
     }
 
