@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Attribute;
+use App\Entity\AttributeValue;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,7 +34,11 @@ class Content{
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="content")
+     * @ORM\ManyToMany(targetEntity="AttributeValue")
+     * @ORM\JoinTable(name="content_attributevalue",
+     *      joinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attributevalue_id", referencedColumnName="id", unique=true)}
+     *      )
      */
     private $attributes;
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Attribute;
+use App\Entity\Content;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +32,11 @@ class AttributeValue{
      * @ORM\Column(type="text")
      */
     private $value;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Content")
+     */
+    private $content;
 
     public function __construct(){
         $this->createdAt = new \Datetime;
@@ -64,5 +70,14 @@ class AttributeValue{
 
     public function getValue(){
         return $value;
+    }
+
+    public function getContent(){
+        return $this->content;
+    }
+
+    public function setContent(Content $content){
+        $this->content = $content;
+        return $this;
     }
 }

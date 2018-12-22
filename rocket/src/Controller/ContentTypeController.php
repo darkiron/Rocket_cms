@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\BaseController;
 use App\Entity\ContentType;
-use App\Form\TypeType;
+use App\Form\ContentTypeType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContentTypeController extends BaseController{
         
     /** 
-     * @Route("/api/types", name="api_types", methods={"GET"})
+     * @Route("/api/contenttypes", name="api_content_types", methods={"GET"})
     */
     public function types(){
         $em = $this->doctrine->getEntityManager();
@@ -29,7 +29,7 @@ class ContentTypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/types/{id}", name="api_types_show", methods={"GET"})
+     * @Route("/api/contenttypes/{id}", name="api_content_types_show", methods={"GET"})
     */
     public function type(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
@@ -47,14 +47,14 @@ class ContentTypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/crud/types/add", name="api_crud_types_add", methods={"GET","POST"})
+     * @Route("/api/crud/contenttypes/add", name="api_crud_content_types_add", methods={"GET","POST"})
     */
     public function add(Request $request){
         $em = $this->doctrine->getEntityManager();
 
         $type = new ContentType();
 
-        $form = $this->factory->createBuilder(TypeType::class, $type)->getForm();
+        $form = $this->factory->createBuilder(ContentTypeType::class, $type)->getForm();
 
         $data = json_decode($request->getContent(), true);
 
@@ -80,7 +80,7 @@ class ContentTypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/crud/types/edit/{id}", name="api_crud_types_edit", methods={"GET","PUT"})
+     * @Route("/api/crud/contenttypes/edit/{id}", name="api_crud_content_types_edit", methods={"GET","PUT"})
     */
     public function edit(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
@@ -92,7 +92,7 @@ class ContentTypeController extends BaseController{
         );
 
         if(null !== $type){
-            $form = $this->factory->createBuilder(TypeType::class, $type)->getForm();
+            $form = $this->factory->createBuilder(ContentTypeType::class, $type)->getForm();
 
             $data = json_decode($request->getContent(), true);
     
@@ -122,7 +122,7 @@ class ContentTypeController extends BaseController{
     }
     
     /** 
-     * @Route("/api/crud/types/delete/{id}", name="api_crud_types_delete", methods={"DELETE", "OPTIONS"})
+     * @Route("/api/crud/contenttypes/delete/{id}", name="api_crud_content_types_delete", methods={"DELETE", "OPTIONS"})
     */
     public function delete(Request $request, $id){
         $em = $this->doctrine->getEntityManager();

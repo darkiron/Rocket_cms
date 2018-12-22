@@ -93,7 +93,7 @@ class ContentController extends BaseController{
         );
 
         if(null !== $type){
-            $form = $this->factory->createBuilder(TypeType::class, $type)->getForm();
+            $form = $this->factory->createBuilder(ContentType::class, $type)->getForm();
 
             $data = json_decode($request->getContent(), true);
     

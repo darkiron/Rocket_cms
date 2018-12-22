@@ -27,12 +27,6 @@ abstract class Type{
     private $title;
 
     /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    private $type;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -63,14 +57,4 @@ abstract class Type{
     public function getCreatedAt(){
         return $this->createdAt;
     }
-
-    public function setType($type){
-        $this->type = $type;
-        return $this;
-    }
-
-    public function getType(){
-        return $this->type;
-    }
-
 }
