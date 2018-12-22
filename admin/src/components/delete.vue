@@ -11,14 +11,21 @@
 </template>
 <script>
 import axios from 'axios';
-import api from '@/api';
 
 export default {
   name: 'delete',
   props: ['id'],
   methods: {
     deleted() {
-      axios.delete(api.getRoute(this.$route.params.type, 'delete', this.id));
+      console.log(this.getType)
+      console.log(`${process.env.VUE_APP_BASE_URL}/api/crud/${this.getType}/delete/${this.id}`)
+      axios.options(`${process.env.VUE_APP_BASE_URL}/api/crud/${this.getType}/delete/${this.id}`);
+    },
+  },
+  computed: {
+    getType() {
+      const reg = new RegExp(/\w*$/);
+      return reg.exec(this.$store.state.currentEndpoint.path)[0];
     },
   },
 };
