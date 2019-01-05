@@ -21,7 +21,7 @@ class AttributeTypeType extends AbstractType{
     public function configureOption(OptionsResolver $resolver){
         $resolver->setDefault(
             [
-                'data_class' => Type::class,
+                'data_class' => AttributeType::class,
                 'csrf_protection' => false,
             ]
         );

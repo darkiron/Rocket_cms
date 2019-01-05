@@ -12,7 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Routing\RouterInterface;
 
+use App\Form\ContentTypeType;
+use App\Form\AttributeTypeType;
+
 use App\Entity\ContentType;
+use App\Entity\AttributeType;
+use Twig\Environment;
 
 class IndexController extends BaseController{
 
@@ -53,5 +58,16 @@ class IndexController extends BaseController{
         ];*/
  
         return new JsonResponse($result);
+    }
+
+     /** 
+     * @Route("/test", name="test", methods={"GET"})
+    */
+    public function test(RouterInterface $router, Request $request, Environment $twig){
+        $form = $this->factory->createBuilder(ContentTypeType::class, new ContentType)->getForm();
+        //$form = $this->factory->createBuilder(AttributeTypeType::class, new AttributeType)->getForm();
+
+        return new Response($twig->render('/test.html.twig', ['form' => $form->createView()]));
+
     }
 }

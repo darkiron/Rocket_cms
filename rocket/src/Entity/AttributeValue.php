@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Attribute;
+use App\Entity\AttributeType;
 use App\Entity\Content;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +24,7 @@ class AttributeValue{
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Attribute")
+     * @ORM\ManyToOne(targetEntity="AttributeType")
      */
     private $attribute;
 
@@ -55,7 +55,7 @@ class AttributeValue{
         return $this->createdAt;
     }
 
-    public function setAttribute(Attribute $attribute){
+    public function setAttribute(AttributeType $attribute){
         $this->attribute = $attribute;
         return $this;
     }

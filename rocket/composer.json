@@ -9,11 +9,14 @@
         "ext-iconv": "*",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "*",
+        "symfony/debug": "4.2.*",
         "symfony/flex": "^1.1",
-        "symfony/form": "*",
+        "symfony/form": "4.2.*",
         "symfony/framework-bundle": "*",
         "symfony/orm-pack": "^1.0",
+        "symfony/profiler-pack": "^1.0",
         "symfony/serializer": "*",
+        "symfony/translation": "4.2.*",
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/var-dumper": "*",
@@ -65,7 +68,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.1.*"
+            "require": "4.2.*"
         }
     }
 }

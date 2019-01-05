@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {# render the task's only field: description #}
+    {{ form_row(form.title) }}
+
+    <h3>Tags</h3>
+    <ul class="tags">
+        
+
+{{ form_end(form) }}
+
+<ul>
+{% for choice in form.attributes.choices %}
+<li>{{ choice.value }} </li>
+{% endfor %}
+</ul>
+
+{% endblock body %}

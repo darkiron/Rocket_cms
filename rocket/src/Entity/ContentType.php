@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Type;
-use App\Entity\Attribute;
+use App\Entity\AttributeType;
 
 
 /**
@@ -13,7 +13,7 @@ use App\Entity\Attribute;
 class ContentType extends Type {
 
     /**
-     * @ORM\ManyToMany(targetEntity="Attribute")
+     * @ORM\ManyToMany(targetEntity="AttributeType")
      */
     private $attributes;
 

@@ -27,8 +27,9 @@ class FormErrors{
             $fields[$child->getName()] = [
                 'required' => $child->isRequired(),
                 'label' => $child->getConfig()->getOption('label'),
-                'type' => get_class($child->getConfig()->getType()->getInnerType()),
-                'value' => $child->getConfig()->getData(),
+                'type' => $child->getConfig()->getType()->getInnerType(),
+                'value' => $child->createView()->vars['data'],
+                'class' => $child->getConfig()->getOption('class')
             ];
         }
 
