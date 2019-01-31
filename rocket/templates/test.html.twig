@@ -13,9 +13,10 @@
 {{ form_end(form) }}
 
 <ul>
-{% for choice in form.attributes.choices %}
+{#{ dump(form.attributes.vars) }}
+{#% for choice in form.attributes.choices %}
 <li>{{ choice.value }} </li>
-{% endfor %}
+{% endfor %#}
 </ul>
 
 {% endblock body %}

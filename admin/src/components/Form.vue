@@ -1,13 +1,21 @@
 <template>
   <form>
-    <FormInput v-for="(input, index) in form" :key="index" :value="input"  :name="index" />
-    <button type="submit" @click="submit">Save</button>
+    <FormInput
+      v-for="(input, index) in form"
+      :key="index"
+      :value="input"
+      :name="index"
+    />
+    <button
+      type="submit"
+      @click="submit"
+    >Save</button>
   </form>
 </template>
 <script>
-import api from '@/api';
-import FormInput from '@/components/FormInput.vue';
-import axios from 'axios';
+import axios from 'axios'
+import FormInput from './FormInput.vue'
+
 
 export default {
   name: 'Form',
@@ -21,11 +29,11 @@ export default {
     };
   },
   methods: {
-    submit(e) {
+    submit (e) {
       e.preventDefault();
-      let formValue = {};
-      //console.log(this.form)
-      Object.keys(this.form).forEach( item => {
+      const formValue = {};
+
+      Object.keys(this.form).forEach((item) => {
         formValue[`${item}`] = document.getElementById(item).value;
       });
       axios({
@@ -33,12 +41,12 @@ export default {
         url: this.action,
         data: formValue,
         headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
-      })
-    },
+      });
+    }
   },
-  mounted() {
+  mounted () {
     /* this.action = api.getRoute(this.$route.params.type, 'add'); */
     axios.get(`http://localhost:8888/api?search=${this.$store.state.currentEndpoint.name}_add`).then(
       (r) => {

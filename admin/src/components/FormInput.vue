@@ -9,7 +9,8 @@
     </template>
     <template v-else>
       <select :name="name" :id="name">
-        <option v-for="(opt, index) in value.values" :key="index" :value="opt" v-html="opt">
+        <option v-for="opt in value.values" :key="opt.value" :value="opt.value">
+          {{ opt.label}}
         </option>
       </select>
     </template>

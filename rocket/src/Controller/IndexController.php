@@ -66,6 +66,8 @@ class IndexController extends BaseController{
     public function test(RouterInterface $router, Request $request, Environment $twig){
         $form = $this->factory->createBuilder(ContentTypeType::class, new ContentType)->getForm();
         //$form = $this->factory->createBuilder(AttributeTypeType::class, new AttributeType)->getForm();
+        //var_dump($form->createView()->offsetGet('attributes')->offsetGet('vars'));
+        // die; 
 
         return new Response($twig->render('/test.html.twig', ['form' => $form->createView()]));
 
