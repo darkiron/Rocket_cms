@@ -39,7 +39,7 @@ class FormErrors{
                 'label' => $child->getConfig()->getOption('label'),
                 'type' => get_class($child->getConfig()->getType()->getInnerType()),
                 'values' => (array_key_exists('choices', $childView->vars))? $childView->vars['choices'] : $childView->vars['value'],
-                'class' => $child->getConfig()->getOption('class')
+                'class' => $child->getConfig()->getOption('class'),
             ];
         }
 

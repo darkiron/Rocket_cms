@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AttributeTypeController extends BaseController{
         
     /** 
-     * @Route("/api/attributestypes", name="api_attribut_types", methods={"GET"})
+     * @Route("/api/attributestypes", name="api_attribute_type", methods={"GET"})
     */
     public function types(){
         $em = $this->doctrine->getEntityManager();
@@ -29,7 +29,7 @@ class AttributeTypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/attributestypes/{id}", name="api_attribut_types_show", methods={"GET"})
+     * @Route("/api/attributestypes/{id}", name="api_attribute_type_show", methods={"GET"})
     */
     public function type(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
@@ -47,7 +47,7 @@ class AttributeTypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/crud/attributestypes/add", name="api_crud_attribut_types_add", methods={"GET","POST"})
+     * @Route("/api/crud/attributestypes/add", name="api_crud_attribute_type_add", methods={"GET","POST"})
     */
     public function add(Request $request){
         $em = $this->doctrine->getEntityManager();
@@ -80,7 +80,7 @@ class AttributeTypeController extends BaseController{
     }
 
     /** 
-     * @Route("/api/crud/attributestypes/edit/{id}", name="api_crud_attribut_types_edit", methods={"GET","PUT"})
+     * @Route("/api/crud/attributestypes/edit/{id}", name="api_crud_attribute_type_edit", methods={"GET","PUT"})
     */
     public function edit(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
@@ -122,7 +122,7 @@ class AttributeTypeController extends BaseController{
     }
     
     /** 
-     * @Route("/api/crud/attributestypes/delete/{id}", name="api_crud_attribut_types_delete", methods={"DELETE", "OPTIONS"})
+     * @Route("/api/crud/attributestypes/delete/{id}", name="api_crud_attribute_type_delete", methods={"DELETE", "OPTIONS"})
     */
     public function delete(Request $request, $id){
         $em = $this->doctrine->getEntityManager();

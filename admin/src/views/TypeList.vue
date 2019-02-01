@@ -22,18 +22,24 @@ export default {
   },
   watch: {
     '$route': 'fetchItems',
+    'loading': 'fetchItems'
+  },
+  computed: {
+    loading () {
+      return this.$store.state.loading
+    }
   },
   methods:{
     fetchItems() {
-      axios.get(`http://localhost:8888${this.$store.state.currentEndpoint.path}`).then(
-        (res) => {
-          this.items = res.data;
-        },
-      );
-    },
+      if (!this.loading) {
+        axios.get(`http://localhost:8888${this.$store.state.currentEndpoint.path}`).then(r => {
+          this.items = r.data;
+        })
+      }
+    }
   },
   mounted() {
-    this.fetchItems();
-  },
-};
+    this.fetchItems()
+  }
+}
 </script>
