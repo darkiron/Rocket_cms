@@ -1,9 +1,10 @@
 <template>
   <nav>
     <ul>
-      <li  v-for="(item, index) in navItems" :key="index" @click="setEndpoint(item)">
-        <router-link :to="{ name:'typeList', params: { 'type': item.name}}">
-          {{ item.name }}
+      <li  v-for="(item, index) in navItems" :key="index">
+        <router-link :to="{ name:'typeList', params: { 'type': item.htmlName ? item.htmlName : item.name}}">
+          <template v-if="item.htmlName">{{ item.htmlName }}</template>
+          <template v-else>{{ item.name }}</template>
         </router-link>
       </li>
     </ul>
@@ -14,37 +15,22 @@ import axios from 'axios';
 
 export default {
   name: 'naviguation',
-  data() {
-    return {
-      items: [],
-    };
-  },
   computed: {
-    navItems() {
+    navItems () {
       const reg = new RegExp('(?!a?p?i?_)(.*)$')
-      if(this.items.length) {
-        return this.items.filter( (i) => {
+      const items = this.$store.state.endpoints
+      if(items.length) {
+        return items.filter( (i) => {
           if (i.name.indexOf('crud') < 0 && i.name.indexOf('show') < 0 && i.name.indexOf('error') < 0 && i.name.indexOf('endpoint') < 0) {
-            i.name = reg.exec(i.name)[0];
-            return i;
+            // i.name = reg.exec(i.name)[0]
+            i.htmlName = reg.exec(i.name)[0]
+            return i
           }
-        });
+        })
       }
     },
-  },
-  methods: {
-    setEndpoint(i) {
-      this.$store.dispatch('setCurrentEndpoint', i);
-    },
-  },
-  mounted() {
-    axios.get('http://localhost:8888/api').then(
-      (r) => {
-        this.items = r.data;
-      },
-    );
-  },
-};
+  }
+}
 </script>
 <style lang="scss">
   nav{

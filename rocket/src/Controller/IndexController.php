@@ -28,11 +28,9 @@ class IndexController extends BaseController{
         $em = $this->doctrine->getEntityManager();
 
         $search = $request->get('search', null);
-
         $result = [];
 
         foreach ($router->getRouteCollection() as $key => $route) {
-
             if(null === $search){
                 $result[] = [ 
                     'name' => $key,

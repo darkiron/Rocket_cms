@@ -1,20 +1,15 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+import loadMixin from './mixins/load'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
 
-router.beforeEach((to, from, next) => {
-  next(vm => {
-    // access to component instance via `vm`
-    console.log(vm);
-    vm.$forceUpdate();
-  });
-});
+Vue.mixin(loadMixin)
 
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app');

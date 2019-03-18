@@ -11,17 +11,15 @@
   </div>
 </template>
 <script>
-
-import Naviguation from '@/components/Naviguation.vue';
+import Naviguation from '@/components/Naviguation.vue'
 
 export default {
   name: 'App',
   components: {
     Naviguation,
-  },
-};
+  }
+}
 </script>
-
 <style lang="scss">
 body {
   margin: 0;
@@ -40,8 +38,22 @@ body {
   padding: 0;
 }
 
+#nav {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
 .container{
   display: flex;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .main {

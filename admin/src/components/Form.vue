@@ -5,6 +5,7 @@
       :key="index"
       :value="input"
       :name="index"
+      :endpoint=hasaddType(input)
     />
     <button
       type="submit"
@@ -22,13 +23,61 @@ export default {
   components: {
     FormInput,
   },
+  props: ['endPoint'],
   data() {
     return {
       form: [],
       action: '',
-    };
+      addTypes: [],
+    }
+  },
+  watch: {
+    currentEndpoint () {
+      this.setForm()
+    },
+    form () {
+      if (this.form.length) this.setAddType()
+    }
   },
   methods: {
+    hasaddType (input) {
+      return this.addTypes.filter(i => {
+        if (i.label === input.label) return i
+      })[0]
+    },
+    setAddType () {
+      const reg = new RegExp('(\\w*)$')
+      this.form.forEach(i => {
+        if (i.hasOwnProperty('type') && i.type.indexOf('EntityType') >= 0){
+          const searchName = reg.exec(i.class)[0]
+          let search = []
+          for (let i = 0; i < searchName.length; i++) {
+            if (searchName[i] === searchName[i].toUpperCase() && i > 1) {
+              search.push('_')
+            }
+            search.push(searchName[i].toLowerCase())
+          }
+          search = search.join('')
+          this.$store.dispatch('searchEndPoint', { type: search, rName: 'typeAdd' }).then(r => {
+            if (r.length) {
+              r[r.length - 1].label = i.label
+              this.addTypes.push(r[r.length - 1])
+            }
+          })
+        }
+      })
+    },
+    setForm() {
+      if (this.currentEndpoint.hasOwnProperty('path')) {
+        this.action = `http://localhost:8888${this.currentEndpoint.path}`
+        axios.get(this.action).then(r => {
+          Object.keys(r.data).forEach(k => {
+            r.data[k].label = k
+            this.form.push(r.data[k])
+          })
+        })
+      }
+    },
     submit (e) {
       e.preventDefault();
       const formValue = {};
@@ -46,18 +95,14 @@ export default {
       });
     }
   },
-  mounted () {
-    /* this.action = api.getRoute(this.$route.params.type, 'add'); */
-    axios.get(`http://localhost:8888/api?search=${this.$store.state.currentEndpoint.name}_add`).then(
-      (r) => {
-        this.action = `http://localhost:8888${r.data[0].path}`;
-        axios.get(this.action).then(
-          (r) => {
-            this.form = r.data;
-          }
-        )
-      }
-    )
+  computed: {
+    currentEndpoint () {
+      console.log(this.endPoint)
+      return (this.endPoint === undefined) ? this.$store.state.currentEndpoint : this.endPoint
+    }
   },
-};
+  mounted () {
+    this.setForm()
+  }
+}
 </script>
