@@ -9,6 +9,7 @@ export default new Vuex.Store({
     currentEndpoint: {},
     endpoints: [],
     loading: true,
+    running: false
   },
   mutations: {
     setLoading (state, status) {
@@ -18,32 +19,39 @@ export default new Vuex.Store({
       state.currentEndpoint = endpoint;
     },
     setEndpoints (state, endpoints) {
-      state.endpoints = endpoints
+      endpoints.forEach((item, key) => {
+        Vue.set(state.endpoints, key, item )
+      })
+      //state.endpoints = endpoints
+    },
+    setRunning (state, func){
+      state.running = func
     }
   },
   actions: {
-    setLoading ({ commit }, status) {
-      commit('setLoading', status)
+    initEndpoints ({ commit, state }) {
+      if (!state.running){
+        commit('setRunning', 'initEndpoints')
+        return fetchEndpoints().then(r => {
+          commit('setEndpoints', r)
+          commit('setRunning', false)
+        })
+      }
     },
-    initEndpoints ({ commit, dispatch }) {
-      dispatch('setLoading', true)
-      return fetchEndpoints().then(r => {
-        commit('setEndpoints', r)
-      })
-    },
-    setCurrentEndpoint ({ commit }, endpoint){
-      commit('setCurrentEndpoint', endpoint)
-    },
-    setEndpoints ({ commit }, endpoints){
-      commit('setEndpoints', endpoints)
-    },
-    findEndpoints({ state }, search) {
-      console.log(state.endpoints)
+    searchEndPoint ({ state }, { type, rName }) {
+      const roadSearch = `api_${(rName === 'typeAdd')? 'crud_' : '' }${type}${(rName === 'typeAdd')? '_add' : '' }`
       return state.endpoints.filter(i => {
-        if (Object.values(i).find(e => {
-          return e.indexOf(search) >= 0
-        })) return i
+        // if (i.name.indexOf(roadSearch) === 0 ) {
+        if (i.name === roadSearch ) {
+          return i
+        }
       })
+    },
+    setCurrentEndpoint ({ commit }, endpoint) {
+      return commit('setCurrentEndpoint', endpoint)
+    },
+    setLoading({ commit }, value){
+      return commit('setLoading', value)
     }
   }
 })

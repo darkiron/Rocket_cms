@@ -17,13 +17,9 @@ export default {
   name: 'App',
   components: {
     Naviguation,
-  },
-  created () {
-
-  },
+  }
 }
 </script>
-
 <style lang="scss">
 body {
   margin: 0;

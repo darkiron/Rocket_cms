@@ -2,24 +2,31 @@
   <div>
     <label :for="name" v-html="(value.label !== null) ? value.label : name"></label>
     <template v-if="type === 'text'">
-      <input :type="type" :name="name" :id="name">
+      <input :type="type" :name="value.name" :id="name">
     </template>
     <template v-else-if="type === 'textarea'">
-      <textarea :name="name" v-html="(value.value !== null) ? value.value : ''" :id="name"></textarea>
+      <textarea :name="value.name" v-html="(value.value !== null) ? value.value : ''" :id="name"></textarea>
     </template>
     <template v-else>
-      <select :name="name" :id="name">
+      <select :name="value.name" :id="name">
         <option v-for="opt in value.values" :key="opt.value" :value="opt.value">
           {{ opt.label}}
         </option>
       </select>
     </template>
+    <modalAdd v-if="endpoint" :endpoint="endpoint"></modalAdd>
   </div>
 </template>
 <script>
+
+import modalAdd from './ModalAdd'
+
 export default {
   name: 'formInput',
-  props: ['value', 'name'],
+  props: ['value', 'name', 'endpoint'],
+  components: {
+    modalAdd
+  },
   computed: {
     type () {
       let reg = new RegExp('\\w*$');

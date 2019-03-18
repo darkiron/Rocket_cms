@@ -5,6 +5,7 @@
       :key="index"
       :value="input"
       :name="index"
+      :endpoint=hasaddType(input)
     />
     <button
       type="submit"
@@ -22,6 +23,7 @@ export default {
   components: {
     FormInput,
   },
+  props: ['endPoint'],
   data() {
     return {
       form: [],
@@ -38,6 +40,11 @@ export default {
     }
   },
   methods: {
+    hasaddType (input) {
+      return this.addTypes.filter(i => {
+        if (i.label === input.label) return i
+      })[0]
+    },
     setAddType () {
       const reg = new RegExp('(\\w*)$')
       this.form.forEach(i => {
@@ -45,13 +52,13 @@ export default {
           const searchName = reg.exec(i.class)[0]
           let search = []
           for (let i = 0; i < searchName.length; i++) {
-            if (searchName[i] === searchName[i].toUpperCase()) {
+            if (searchName[i] === searchName[i].toUpperCase() && i > 1) {
               search.push('_')
             }
             search.push(searchName[i].toLowerCase())
           }
-          search = search.join('') + '_add'
-          this.$store.dispatch('findEndpoints', search).then(r => {
+          search = search.join('')
+          this.$store.dispatch('searchEndPoint', { type: search, rName: 'typeAdd' }).then(r => {
             if (r.length) {
               r[r.length - 1].label = i.label
               this.addTypes.push(r[r.length - 1])
@@ -90,7 +97,8 @@ export default {
   },
   computed: {
     currentEndpoint () {
-      return this.$store.state.currentEndpoint
+      console.log(this.endPoint)
+      return (this.endPoint === undefined) ? this.$store.state.currentEndpoint : this.endPoint
     }
   },
   mounted () {
