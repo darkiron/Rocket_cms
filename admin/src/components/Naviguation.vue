@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="side">
     <ul>
       <li  v-for="(item, index) in navItems" :key="index">
         <router-link :to="{ name:'typeList', params: { 'type': item.htmlName ? item.htmlName : item.name}}">
@@ -28,36 +28,15 @@ export default {
           }
         })
       }
+      return []
     },
   }
 }
 </script>
 <style lang="scss">
-  nav{
-    width: 15rem;
-    background-image: linear-gradient(#3ab980, #34495f);
-    ul{
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      li{
-        border-bottom: #34495f 1px solid;
-        height: 3rem;
-        margin: 0;
-
-        a{
-          text-decoration: none;
-          color:#34495f;
-          text-transform: capitalize;
-          display: flex;
-          justify-content: left;
-          align-items: center;
-          height: 100%;
-          width:100%;
-          padding: 0 2rem;
-        }
-      }
-    }
+.side {
+  ul {
+    display: inline-block;
   }
+}
 </style>
