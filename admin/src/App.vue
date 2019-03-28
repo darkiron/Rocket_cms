@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" data-after=" ">
       <ul>
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/about">About</router-link></li>
       </ul>
+      <div id="loader"></div>
     </div>
     <div class="container">
       <Naviguation/>
@@ -28,6 +29,10 @@ $font-stack: 'Arial';
 $back-color: #232323;
 $font-color: #bbb;
 
+html, body {
+  height: 100%;
+}
+
 body{
   margin: 0;
   padding: 0;
@@ -48,21 +53,27 @@ body{
       display: contents;
     }
 
-    &:after {
+    #loader {
       height: 5px;
       width: 100%;
       background: linear-gradient(to right, yellow, red);
       background-size: 200% 200%;
       background-position: 50% 50%;
       display: block;
-      content: " ";
       animation: loadAnimation 5s ease infinite;
     }
   }
 
   #app {
+    min-height: 100%;
+
     .container {
       display: flex;
+
+      .main {
+        width: 100%;
+        padding: 1rem;
+      }
     }
   }
 }

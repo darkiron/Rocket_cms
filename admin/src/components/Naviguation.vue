@@ -1,6 +1,6 @@
 <template>
   <nav class="side">
-    <ul>
+    <ul v-if="navItems.length">
       <li  v-for="(item, index) in navItems" :key="index">
         <router-link :to="{ name:'typeList', params: { 'type': item.htmlName ? item.htmlName : item.name}}">
           <template v-if="item.htmlName">{{ item.htmlName }}</template>
@@ -8,6 +8,7 @@
         </router-link>
       </li>
     </ul>
+    <div v-else-if="!loading && !navItems.length" class="alert"> Un probléme est survenue, vérifier la connexion à l'api</div>
   </nav>
 </template>
 <script>
@@ -34,9 +35,56 @@ export default {
 }
 </script>
 <style lang="scss">
+
+
+$font-stack: 'Arial';
+$back-color: #232323;
+$font-color: #bbb;
+
+
 .side {
+  width: 14rem;
+
   ul {
     display: inline-block;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    li {
+      height: 2rem;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+
+      a {
+        text-decoration: none;
+        color: $font-color;
+        width: 100%;
+      }
+
+      &:hover {
+        background-color: #3d8263;
+      }
+    }
   }
+
+  .alert {
+    color: red;
+    padding: 1rem;
+    border: 1px solid red;
+    text-align: center;
+    background-color: rgba(243, 37, 37, 0.49);
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+
+    &:before {
+      content: "!";
+    }
+  }
+
 }
 </style>

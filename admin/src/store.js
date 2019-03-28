@@ -9,7 +9,12 @@ export default new Vuex.Store({
     currentEndpoint: {},
     endpoints: [],
     loading: true,
-    running: false
+    running: false,
+    user: {
+      username: 'John Doe',
+      token: '',
+      avatar: 'https://picsum.photos/50/50'
+    }
   },
   mutations: {
     setLoading (state, status) {

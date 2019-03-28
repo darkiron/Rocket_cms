@@ -23,11 +23,10 @@ export default {
   components: {
     FormInput,
   },
-  props: ['endPoint'],
+  props: ['endpoint'],
   data() {
     return {
       form: [],
-      action: '',
       addTypes: [],
     }
   },
@@ -68,12 +67,14 @@ export default {
       })
     },
     setForm() {
+      this.form = []
       if (this.currentEndpoint.hasOwnProperty('path')) {
-        this.action = `http://localhost:8888${this.currentEndpoint.path}`
+        this.$store.dispatch('setLoading', true)
         axios.get(this.action).then(r => {
           Object.keys(r.data).forEach(k => {
             r.data[k].label = k
             this.form.push(r.data[k])
+            this.$store.dispatch('setLoading', false)
           })
         })
       }
@@ -81,10 +82,10 @@ export default {
     submit (e) {
       e.preventDefault();
       const formValue = {};
-
-      Object.keys(this.form).forEach((item) => {
-        formValue[`${item}`] = document.getElementById(item).value;
+      this.form.forEach((item, key) => {
+        formValue[`${item.name}`] = document.getElementById(key).value;
       });
+      this.$store.dispatch('setLoading', true)
       axios({
         method: 'post',
         url: this.action,
@@ -92,13 +93,14 @@ export default {
         headers: {
           'Content-Type': 'text/plain;charset=utf-8',
         },
+      }).then(() => {
+        this.$store.dispatch('setLoading', false)
       });
     }
   },
   computed: {
-    currentEndpoint () {
-      console.log(this.endPoint)
-      return (this.endPoint === undefined) ? this.$store.state.currentEndpoint : this.endPoint
+    action () {
+      return `http://localhost:8888${this.currentEndpoint.path}`
     }
   },
   mounted () {

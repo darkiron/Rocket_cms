@@ -1,8 +1,10 @@
 <template>
     <div>
         <h2>Liste</h2>
-
-        <array :items="items"></array>
+        <array  v-if="items.length" :items="items"></array>
+        <div v-else class="alert">
+          Aucuns résultats
+        </div>
     </div>
 </template>
 <script>
@@ -15,31 +17,29 @@ export default {
   components: {
     array,
   },
-  data() {
+  data () {
     return {
       items: [],
-    };
+    }
   },
   watch: {
-    '$route': 'fetchItems',
-    'loading': 'fetchItems'
+    currentEndpoint () {
+      this.fetchItems()
+    }
   },
   computed: {
-    loading () {
-      return this.$store.state.loading
+    endpointUrl () {
+      return `http://localhost:8888${this.currentEndpoint.path}`
     }
   },
   methods:{
-    fetchItems() {
-      if (!this.loading) {
-        axios.get(`http://localhost:8888${this.$store.state.currentEndpoint.path}`).then(r => {
+    fetchItems () {
+      this.$store.dispatch('setLoading', true)
+        axios.get(this.endpointUrl).then(r => {
           this.items = r.data;
+          this.$store.dispatch('setLoading', false)
         })
-      }
     }
-  },
-  mounted() {
-    this.fetchItems()
   }
 }
 </script>

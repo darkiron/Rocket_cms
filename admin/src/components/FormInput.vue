@@ -8,7 +8,7 @@
       <textarea :name="value.name" v-html="(value.value !== null) ? value.value : ''" :id="name"></textarea>
     </template>
     <template v-else>
-      <select :name="value.name" :id="name">
+      <select :name="value.name" :id="name" :multiple="value.multiple">
         <option v-for="opt in value.values" :key="opt.value" :value="opt.value">
           {{ opt.label}}
         </option>

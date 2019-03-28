@@ -2,19 +2,19 @@
   <div>
     <button @click="openModal">add</button>
     <div id="modal">
-      <Form :endPoint="endpoint"></Form>
+      <Form :endpoint="endpoint"></Form>
     </div>
   </div>
 </template>
 <script>
 
-import Form from './Form.vue';
+import Form from '@/components/Form.vue';
 
 export default {
   name: 'modalAdd',
   props: ['endpoint'],
   components: {
-    Form
+    Form,
   },
   methods: {
     openModal (event) {
@@ -25,5 +25,3 @@ export default {
   }
 }
 </script>
-
-
