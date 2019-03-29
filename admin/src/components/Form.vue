@@ -83,7 +83,24 @@ export default {
       e.preventDefault();
       const formValue = {};
       this.form.forEach((item, key) => {
-        formValue[`${item.name}`] = document.getElementById(key).value;
+        if (item.multiple === null){
+          formValue[`${item.name}`] = document.getElementById(key).value;
+        }
+        else {
+          console.log(key)
+          let options = document.getElementById(key).options
+
+          let result = []
+
+          for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+              result.push(options[i].value)
+            }
+          }
+
+          formValue[`${item.name}`] = result;
+        }
+
       });
       this.$store.dispatch('setLoading', true)
       axios({

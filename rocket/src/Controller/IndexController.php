@@ -17,6 +17,7 @@ use App\Form\AttributeTypeType;
 
 use App\Entity\ContentType;
 use App\Entity\AttributeType;
+
 use Twig\Environment;
 
 class IndexController extends BaseController{
@@ -48,9 +49,25 @@ class IndexController extends BaseController{
            
         }
 
+        $customContents = $em->getRepository(ContentType::class)->findAll();
+
+        foreach ($customContents as $content) {
+            $result[] = [
+                'name' => 'api_'.$content->getTitle(),
+                'path' => '/api/'.$content->getTitle(),
+                'methods' => [],
+            ];
+
+            $result[] = [
+                'name' => 'api_crud_'.$content->getTitle().'_add',
+                'path' => '/api/crud/'.$content->getTitle().'/add',
+                'methods' => [],
+            ];
+        }
+
         //var_dump(get_class_methods($router->getRouteCollection()));
         //api_content
-       /* $result['contents'] = [
+        /* $result['contents'] = [
             'path' => $router->getRouteCollection()->get('api_contents')->getPath(),
             'method' => $router->getRouteCollection()->get('api_contents')->getMethods(),
         ];*/

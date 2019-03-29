@@ -24,7 +24,7 @@ class FormErrors{
         return $error;
     }
 
-    public function DiscoverForm($form){
+    public function DiscoverForm(&$form){
         /** TOOD perform better var set from Symfony\Component\Form\ChoiceList\View\ChoiceView */
         $view = $form->createView();
 

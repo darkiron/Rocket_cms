@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class ContentTypeController extends BaseController{
         
@@ -127,7 +127,7 @@ class ContentTypeController extends BaseController{
     public function delete(Request $request, $id){
         $em = $this->doctrine->getEntityManager();
 
-        $type = $em->getRepository(Type::class)->findOneBy(
+        $type = $em->getRepository(ContentType::class)->findOneBy(
             [
                 'id' => $id,
             ]
@@ -141,6 +141,72 @@ class ContentTypeController extends BaseController{
         }
 
         throw new Exception(sprintf('Type %s does not exist', $id));
+    }
+
+    /**
+     * @Route("/api/{type}", methods={"GET"})
+     */
+    public function listeCustom($type){
+        return new JsonResponse([]);
+    }
+
+    /**
+     * @Route("/api/{type}/{id}", methods={"GET"})
+     */
+    public function custom($type, $id){
+        
+    }
+
+    /**
+     * @Route("/api/crud/{type}/add", methods={"GET", "POST"})
+     */
+    public function addCustom(Request $request, $type){
+        $em = $this->doctrine->getEntityManager();
+
+        $typeObj = $em->getRepository(ContentType::class)->findOneByTitle($type);
+
+        if(null == $typeObj)
+            throw new Exception(sprintf('Type %s does not exist!', $type));
+        
+        $form = $this->factory->createBuilder(FormType::class, []);
+
+        foreach ($typeObj->getAttributes() as $attribute) {
+            $options = [];
+
+            if ($attribute->getType() === 'Symfony\Component\Form\Extension\Core\Type\DateTimeType')
+                $options = ['widget' => 'single_text','format' => 'dd/M/yy','html5' => true];
+
+            $form->add($attribute->getTitle(), $attribute->getType(), $options);
+        }
+
+        $form = $form->getForm();
+
+        $data = json_decode($request->getContent(), true);
+
+        if($request->getMethod() !== 'GET')
+            $form->submit($data);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //todo
+        }
+
+        if($request->getMethod() !== 'GET')
+            return new JsonResponse($this->formErrors->getErrors($form),  500);
+
+        return new JsonResponse($this->formErrors->DiscoverForm($form));
+    }
+
+    /**
+     * @Route("/api/crud/{type}/{id}/edit", methods={"PUT"})
+     */
+    public function editCustom($type, $id){
+
+    }
+
+    /**
+     * @Route("/api/crud/{type}/{id}/delete",  methods={"DELETE", "OPTIONS"})
+     */
+    public function deleteCustom($type, $id){
 
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <label :for="name" v-html="(value.label !== null) ? value.label : name"></label>
-    <template v-if="type === 'text'">
+    <template v-if="type === 'text' || type == 'datetim'">
       <input :type="type" :name="value.name" :id="name">
     </template>
     <template v-else-if="type === 'textarea'">
