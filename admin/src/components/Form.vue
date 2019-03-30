@@ -83,7 +83,7 @@ export default {
       e.preventDefault();
       const formValue = {};
       this.form.forEach((item, key) => {
-        if (item.multiple === null){
+        if (item.multiple === null  || !item.multiple){
           formValue[`${item.name}`] = document.getElementById(key).value;
         }
         else {
