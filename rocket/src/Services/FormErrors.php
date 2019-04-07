@@ -24,7 +24,7 @@ class FormErrors{
         return $error;
     }
 
-    public function DiscoverForm($form){
+    public function DiscoverForm(&$form){
         /** TOOD perform better var set from Symfony\Component\Form\ChoiceList\View\ChoiceView */
         $view = $form->createView();
 
@@ -40,6 +40,7 @@ class FormErrors{
                 'type' => get_class($child->getConfig()->getType()->getInnerType()),
                 'values' => (array_key_exists('choices', $childView->vars))? $childView->vars['choices'] : $childView->vars['value'],
                 'class' => $child->getConfig()->getOption('class'),
+                'multiple' => $child->getConfig()->getOption('multiple'),
             ];
         }
 

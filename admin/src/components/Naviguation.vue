@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <ul>
+  <nav class="side">
+    <ul v-if="navItems.length">
       <li  v-for="(item, index) in navItems" :key="index">
         <router-link :to="{ name:'typeList', params: { 'type': item.htmlName ? item.htmlName : item.name}}">
           <template v-if="item.htmlName">{{ item.htmlName }}</template>
@@ -8,6 +8,7 @@
         </router-link>
       </li>
     </ul>
+    <div v-else-if="!loading && !navItems.length" class="alert"> Un probléme est survenue, vérifier la connexion à l'api</div>
   </nav>
 </template>
 <script>
@@ -28,36 +29,62 @@ export default {
           }
         })
       }
+      return []
     },
   }
 }
 </script>
 <style lang="scss">
-  nav{
-    width: 15rem;
-    background-image: linear-gradient(#3ab980, #34495f);
-    ul{
-      list-style: none;
-      margin: 0;
-      padding: 0;
 
-      li{
-        border-bottom: #34495f 1px solid;
-        height: 3rem;
-        margin: 0;
 
-        a{
-          text-decoration: none;
-          color:#34495f;
-          text-transform: capitalize;
-          display: flex;
-          justify-content: left;
-          align-items: center;
-          height: 100%;
-          width:100%;
-          padding: 0 2rem;
-        }
+$font-stack: 'Arial';
+$back-color: #232323;
+$font-color: #bbb;
+
+
+.side {
+  width: 14rem;
+
+  ul {
+    display: inline-block;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    li {
+      height: 2rem;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+
+      a {
+        text-decoration: none;
+        color: $font-color;
+        width: 100%;
+      }
+
+      &:hover {
+        background-color: #3d8263;
       }
     }
   }
+
+  .alert {
+    color: red;
+    padding: 1rem;
+    border: 1px solid red;
+    text-align: center;
+    background-color: rgba(243, 37, 37, 0.49);
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+
+    &:before {
+      content: "!";
+    }
+  }
+
+}
 </style>
