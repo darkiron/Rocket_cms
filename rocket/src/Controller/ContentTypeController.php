@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Controller\BaseController;
 use App\Entity\ContentType;
 use App\Form\ContentTypeType;
+use App\Entity\Content;
+use App\Entity\AttributeValue;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,7 +149,25 @@ class ContentTypeController extends BaseController{
      * @Route("/api/{type}", methods={"GET"})
      */
     public function listeCustom($type){
-        return new JsonResponse([]);
+        $em = $this->doctrine->getEntityManager();
+
+        $typeObj = $em->getRepository(ContentType::class)->findOneByTitle($type);
+
+        if(null == $typeObj)
+            throw new Exception(sprintf('Type %s does not exist!', $type));
+        
+        $list = $em->getRepository(Content::class)->findByType($typeObj);
+
+        if(null === $list)
+            $list = [];
+        
+        return new Response(
+            $this->serializer->serialize(
+                $list,
+                'json',
+                ['groups' => ['content']]
+            )
+        );
     }
 
     /**
@@ -187,7 +207,28 @@ class ContentTypeController extends BaseController{
             $form->submit($data);
 
         if($form->isSubmitted() && $form->isValid()){
-            //todo
+            $content = new Content;
+            $content->setType($typeObj);
+
+            foreach ($typeObj->getAttributes() as $attribute) {
+                $value = new AttributeValue;
+                $value->setAttribute($attribute)
+                    ->setValue($data[$attribute->getTitle()])
+                    ->setContent($content)
+                ;
+                $content->addAttribute($value);
+            }
+
+            $em->persist($content);
+            $em->flush();
+
+            return new Response(
+                $this->serializer->serialize(
+                    $content,
+                    'json',
+                    ['groups' => ['content']]
+                )
+            );
         }
 
         if($request->getMethod() !== 'GET')

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TypeRepository")
@@ -23,11 +24,13 @@ abstract class Type{
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Groups({"content"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"content"})
      */
     private $createdAt;
 

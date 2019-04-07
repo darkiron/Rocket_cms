@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\AttributeValue;
+use App\Entity\ContentType;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,30 +17,29 @@ class Content{
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"content"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"content"})
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="ContentType")
+     * @Groups({"content"})
      */
-    private $title;
+    private $type;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AttributeValue")
+     * @ORM\ManyToMany(targetEntity="AttributeValue", cascade={"persist"})
      * @ORM\JoinTable(name="content_attributevalue",
      *      joinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="attributevalue_id", referencedColumnName="id", unique=true)}
      *      )
+     * @Groups({"content"})
      */
     private $attributes;
 
@@ -59,26 +60,22 @@ class Content{
         return $this;
     }
 
-    public function setTitle($title){
-        $this->title = $title;
+    public function setType(ContentType $type) :self {
+        $this->type = $type;
         return $this;
     }
 
-    public function getTitle(){
-        return $this->title;
-    }
-
-    public function getDescription(){
-        return $this->description;
-    }
-
-    public function setDescription($description){
-        $this->description = $description;
-        return $this;
+    public function getType(){
+        return $this->type;
     }
 
     public function setAttributes($attributes){
         $this->attributes = $attributes;
+        return $this;
+    }
+
+    public function addAttribute(AttributeValue $value) :self {
+        $this->attributes[] = $value;
         return $this;
     }
 

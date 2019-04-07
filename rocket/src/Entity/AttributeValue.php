@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\AttributeType;
 use App\Entity\Content;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,21 +16,25 @@ class AttributeValue{
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"content"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"content"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="AttributeType")
+     * @Groups({"content"})
      */
     private $attribute;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"content"})
      */
     private $value;
 
@@ -64,12 +69,13 @@ class AttributeValue{
         return $this->attribute;
     }
 
-    public function setValue($value){
+    public function setValue($value) :self{
         $this->value = $value;
+        return $this;
     }
 
     public function getValue(){
-        return $value;
+        return $this->value;
     }
 
     public function getContent(){
