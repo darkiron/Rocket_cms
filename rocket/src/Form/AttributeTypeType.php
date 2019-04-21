@@ -21,6 +21,7 @@ class AttributeTypeType extends AbstractType{
                     'text' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
                     'datetime' => 'Symfony\Component\Form\Extension\Core\Type\DateTimeType',
                     'textarea' => 'Symfony\Component\Form\Extension\Core\Type\TextareaType',
+                    'file' => 'Symfony\Component\Form\Extension\Core\Type\FileType',
                 ]
             ])
         ;

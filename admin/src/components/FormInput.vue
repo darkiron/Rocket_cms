@@ -7,6 +7,9 @@
     <template v-else-if="type === 'textarea'">
       <textarea :name="value.name" v-html="(value.value !== null) ? value.value : ''" :id="name"></textarea>
     </template>
+     <template v-else-if="type === 'file'">
+      <input :type="type" :name="value.name" :id="name">
+    </template>
     <template v-else>
       <select :name="value.name" :id="name" :multiple="value.multiple">
         <option v-for="opt in value.values" :key="opt.value" :value="opt.value">
@@ -29,13 +32,13 @@ export default {
   },
   computed: {
     type () {
-      let reg = new RegExp('\\w*$');
-      let type  = reg.exec(this.value.type)[0];
+      let reg = new RegExp('\\w*$')
+      let type  = reg.exec(this.value.type)
 
-      reg = new RegExp('.*[^Type]')
-      type  = reg.exec(type)[0];
+      reg = new RegExp('.*(?=Type)')
+      type  = reg.exec(type[0])
 
-      return type.toLowerCase();
+      return type[0].toLowerCase()
     }
   }
 };
