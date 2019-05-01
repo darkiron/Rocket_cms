@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form id="form">
     <FormInput
       v-for="(input, index) in form"
       :key="index"
@@ -81,6 +81,9 @@ export default {
     },
     submit (e) {
       e.preventDefault();
+      let formValue = new FormData(document.getElementById('form'))
+      
+      /* 
       const formValue = {};
       this.form.forEach((item, key) => {
         if (item.multiple === null  || !item.multiple){
@@ -102,6 +105,7 @@ export default {
         }
 
       });
+      */
       this.$store.dispatch('setLoading', true)
       axios({
         method: 'post',

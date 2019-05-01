@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use App\Services\FileService;
 
 class ContentTypeController extends BaseController{
         
@@ -180,8 +181,10 @@ class ContentTypeController extends BaseController{
     /**
      * @Route("/api/crud/{type}/add", methods={"GET", "POST"})
      */
-    public function addCustom(Request $request, $type){
+    public function addCustom(Request $request, $type, FileService $fileService){
         $em = $this->doctrine->getEntityManager();
+
+        $fileType = false;
 
         $typeObj = $em->getRepository(ContentType::class)->findOneByTitle($type);
 
@@ -195,6 +198,10 @@ class ContentTypeController extends BaseController{
 
             if ($attribute->getType() === 'Symfony\Component\Form\Extension\Core\Type\DateTimeType')
                 $options = ['widget' => 'single_text','format' => 'dd/M/yy','html5' => true];
+            
+            if ($attribute->getType() === 'Symfony\Component\Form\Extension\Core\Type\FileType')
+                $fileType = $attribute->getTitle();
+
 
             $form->add($attribute->getTitle(), $attribute->getType(), $options);
         }
@@ -202,8 +209,11 @@ class ContentTypeController extends BaseController{
         $form = $form->getForm();
 
         $data = json_decode($request->getContent(), true);
+        
+        if ($fileType)
+            $data = $fileService->getFile($data, $fileType, $request);
 
-        if($request->getMethod() !== 'GET')
+        if ($request->getMethod() !== 'GET')
             $form->submit($data);
 
         if($form->isSubmitted() && $form->isValid()){

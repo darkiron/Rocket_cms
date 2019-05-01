@@ -1,7 +1,9 @@
 FROM php:7.3-fpm
 
 RUN echo "memory_limit=-1" > "$PHP_INI_DIR/conf.d/memory-limit.ini" \
- && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "$PHP_INI_DIR/conf.d/date_timezone.ini"
+ && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "$PHP_INI_DIR/conf.d/date_timezone.ini" \
+ && echo "upload_max_filesize=40M" > "$PHP_INI_DIR/conf.d/upload-max-filesize.ini" \
+ && echo "post_max_size=40M" > "$PHP_INI_DIR/conf.d/post-max-size.ini" 
 
 RUN apt-get update && apt-get install -y apt-utils libzip-dev zlib1g-dev libicu-dev g++
 RUN docker-php-ext-install zip 
