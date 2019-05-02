@@ -46,4 +46,11 @@ class FormErrors{
 
         return $fields;
     }
+
+    public function getDatas($request){
+        if ('' !== $request->getContent())
+            return json_decode($request->getContent(), true);
+
+        return $request->request->all();
+    }
 }

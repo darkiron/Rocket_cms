@@ -56,7 +56,7 @@ class ContentController extends BaseController{
 
         $form = $this->factory->createBuilder(ContentType::class, $type)->getForm();
 
-        $data = json_decode($request->getContent(), true);
+        $data = $this->formErrors->getDatas($request);
 
         if($request->getMethod() !== 'GET')
             $form->submit($data);
@@ -95,7 +95,7 @@ class ContentController extends BaseController{
         if(null !== $type){
             $form = $this->factory->createBuilder(ContentType::class, $type)->getForm();
 
-            $data = json_decode($request->getContent(), true);
+            $data = $this->formErrors->getDatas($request);
     
             if($request->getMethod() !== 'GET')
                 $form->submit($data);

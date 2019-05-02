@@ -56,7 +56,7 @@ class AttributeTypeController extends BaseController{
 
         $form = $this->factory->createBuilder(AttributeTypeType::class, $type)->getForm();
 
-        $data = json_decode($request->getContent(), true);
+        $data = $this->formErrors->getDatas($request);
 
         if($request->getMethod() !== 'GET')
             $form->submit($data);
@@ -94,7 +94,7 @@ class AttributeTypeController extends BaseController{
         if(null !== $type){
             $form = $this->factory->createBuilder(AttributeTypeType::class, $type)->getForm();
 
-            $data = json_decode($request->getContent(), true);
+            $data = $this->formErrors->getDatas($request);
     
             if($request->getMethod() !== 'GET')
                 $form->submit($data);

@@ -32,7 +32,7 @@ class FileService{
                 throw new Exception(sprintf('message : %s', $e->getMessage), 500);
             }
 
-            $data[$nameField] = $file->getFilename();
+            $data[$nameField] = $file->getClientOriginalName();
         } else {
             
         }

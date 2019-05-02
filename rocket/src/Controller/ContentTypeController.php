@@ -59,7 +59,9 @@ class ContentTypeController extends BaseController{
 
         $form = $this->factory->createBuilder(ContentTypeType::class, $type)->getForm();
 
-        $data = json_decode($request->getContent(), true);
+        $data = $this->formErrors->getDatas($request);
+        // var_dump($data);
+        //die('foo');
 
         if($request->getMethod() !== 'GET')
             $form->submit($data);
@@ -97,7 +99,7 @@ class ContentTypeController extends BaseController{
         if(null !== $type){
             $form = $this->factory->createBuilder(ContentTypeType::class, $type)->getForm();
 
-            $data = json_decode($request->getContent(), true);
+            $data = $this->formErrors->getDatas($request);
     
             if($request->getMethod() !== 'GET')
                 $form->submit($data);
@@ -208,7 +210,7 @@ class ContentTypeController extends BaseController{
 
         $form = $form->getForm();
 
-        $data = json_decode($request->getContent(), true);
+        $data = $this->formErrors->getDatas($request);
         
         if ($fileType)
             $data = $fileService->getFile($data, $fileType, $request);
